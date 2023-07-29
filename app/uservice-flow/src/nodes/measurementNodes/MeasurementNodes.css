@@ -1,0 +1,39 @@
+.measurement-node {
+    height: 80px;
+    width: 100px;
+    border: 1px solid #eee;
+    padding: 5px;
+    border-radius: 5px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.acquisition-node {
+    color: #777;
+    font-size: 12px;
+  }
+
+.analysis-node {
+    color: #777;
+    font-size: 12px;
+    background: #f3f3f3;
+  }
+
+.measurement-node-logo {
+  height: 40px;
+  width: 80px;
+}
+
+.display-node-logo {
+  height: 70px;
+  width: 70px;
+}
+
+.event-node-logo {
+  height: 40px;
+  width: 40px;
+}

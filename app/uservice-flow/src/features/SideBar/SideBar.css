@@ -1,0 +1,77 @@
+.side-bar-base {
+  min-width: 15rem;
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: #f3f6f9;
+}
+
+
+.side-bar-header {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.side-bar-subheader {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+  font-weight: 500;
+}
+  
+.dndnode {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  height: 30px;
+  padding: 4px;
+  padding-left: 15px;
+  border: 1px solid #63626e;
+  border-left: 0px;
+  border-radius: 6px;
+  border-style: dashed;
+
+  margin-bottom: 10px;
+
+  cursor: grab;
+  background-color: white;
+
+  position: relative;
+}
+
+.nodeacquisition {
+  background-image: linear-gradient(to right, #eca624 8px, transparent 2px); 
+}
+
+.nodeanalysis {
+  background-image: linear-gradient(to right, #c836ec 8px, transparent 2px);
+}
+
+.nodedisplay {
+  background-image: linear-gradient(to right, #406de9 8px, transparent 2px);
+}
+
+.nodealert {
+  background-image: linear-gradient(to right, #f0f335 8px, transparent 2px);
+}
+
+.dndnode-status-icon {
+  margin-left: auto;
+}
+  
+.reactflow-wrapper {
+    flex-grow: 1;
+    height: 100%;
+  }
+  
+.selectall {
+    margin-top: 10px;
+  }

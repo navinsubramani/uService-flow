@@ -1,0 +1,58 @@
+[
+    {
+      "serviceName": "Seismometers",
+      "category": "AcquisitionNode",
+      "serviceDescription": "Seismometers are specialized sensors used to detect and measure ground vibrations caused by seismic activities, such as earthquakes or volcanic eruptions.",
+      "serviceSourceEndpoint": "Endpoint 1",
+      "serviceControlEndpoint": "Control Endpoint 1"
+    },
+    {
+      "serviceName": "Proximity Sensors",
+      "category": "AcquisitionNode",
+      "serviceDescription": "Proximity sensors can detect vibrations based on changes in distance to an object. They are commonly used in automated systems and machinery",
+      "serviceSourceEndpoint": "Endpoint 2",
+      "serviceControlEndpoint": "Control Endpoint 2"
+    },
+    {
+        "serviceName": "Accelerometers",
+        "category": "AcquisitionNode",
+        "serviceDescription": "Accelerometers are widely used to measure vibrations in mechanical systems, vehicles, and industrial equipment. They detect changes in acceleration, which are then converted into vibrations.",
+        "serviceSourceEndpoint": "Endpoint 2",
+        "serviceControlEndpoint": "Control Endpoint 2"
+    },
+    {
+        "serviceName": "Noise Filters",
+        "category": "AnalysisNode",
+        "serviceDescription": "Noise Filter is used to remove the noises in a waveform signal",
+        "serviceSourceEndpoint": "Endpoint 3",
+        "serviceControlEndpoint": "Control Endpoint 3"
+    },
+    {
+        "serviceName": "Anomaly Detection",
+        "category": "AnalysisNode",
+        "serviceDescription": "Anomaly Detection is used to detect the anomalies in a waveform signal",
+        "serviceSourceEndpoint": "Endpoint 3",
+        "serviceControlEndpoint": "Control Endpoint 3"
+    },
+    {
+        "serviceName": "Waveform Viewer",
+        "category": "DisplayNode",
+        "serviceDescription": "Waveform Viewer is used to display the waveform signal",
+        "serviceSourceEndpoint": "Endpoint 3",
+        "serviceControlEndpoint": "Control Endpoint 3"
+    },
+    {
+        "serviceName": "Web Waveform Viewer",
+        "category": "DisplayNode",
+        "serviceDescription": "Waveform Viewer is used to display the waveform signal",
+        "serviceSourceEndpoint": "Endpoint 3",
+        "serviceControlEndpoint": "Control Endpoint 3"
+    },
+    {
+        "serviceName": "Failure Detection",
+        "category": "EventNode",
+        "serviceDescription": "Failure Detection is used to detect the failure in a waveform signal",
+        "serviceSourceEndpoint": "Endpoint 3",
+        "serviceControlEndpoint": "Control Endpoint 3"
+    }
+  ]

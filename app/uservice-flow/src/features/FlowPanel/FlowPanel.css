@@ -1,0 +1,13 @@
+.flow-panel-base {
+    display: flex;
+    flex-direction: column;
+}
+
+.flow-panel-header {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: left;
+    width: 100%;
+    padding-top: 0.5rem;
+}
