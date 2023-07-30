@@ -18,7 +18,7 @@ function get_node_details(func) {
         .catch(error => console.log(error));
 }
 
-function publish_configuration({usedNodeTypes, usedNodeConnections}) {
+function publish_configuration({usedNodeTypes, usedNodeConnections}, func) {
     // publish the node & edge information to the backend
     fetch(PUBLISH_ENDPOINT, {
         method: 'POST',
@@ -33,28 +33,40 @@ function publish_configuration({usedNodeTypes, usedNodeConnections}) {
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            func("published")
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error)
+            func("published")
+        })
 }
 
-function start_service() {
+function start_service(func) {
     // start the service
     fetch(START_SERVICE_ENDPOINT)
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            func("started")
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error)
+            func("started")
+        })
 }
 
-function stop_service() {
+function stop_service(func) {
     // stop the service
     fetch(STOP_SERVICE_ENDPOINT)
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            func("stopped")
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            console.log(error)
+            func("stopped")
+        })
 }
 
 export { get_node_details, publish_configuration, start_service, stop_service }

@@ -11,3 +11,7 @@
     width: 100%;
     padding-top: 0.5rem;
 }
+
+.flow-panel-header-button {
+    width: 10rem;
+}
