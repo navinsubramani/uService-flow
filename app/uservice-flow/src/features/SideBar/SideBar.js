@@ -10,6 +10,8 @@ import AddAlertIcon from '@mui/icons-material/AddAlert';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import SyncIcon from '@mui/icons-material/Sync';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 
 import { get_node_details } from '../../communication/ServerCommunication.js';
 import { UPDATE_ALL_SERVICES } from './SideBarSlice';
@@ -17,6 +19,7 @@ import { UPDATE_ALL_SERVICES } from './SideBarSlice';
 export function SideBar() {
   const usedNodeTypes = useSelector((state) => state.SideBar.usedNodeTypes);
   const services = useSelector((state) => state.SideBar.allServices);
+  const [syncLoading, setSyncLoading] = React.useState(false);
   const dispatch = useDispatch();
   
   useEffect(() => {
@@ -28,7 +31,12 @@ export function SideBar() {
   const sync_services = useCallback(() => {
     // read the node information from the backend
     console.log("Syncing the services information");
-    get_node_details((data) => dispatch(UPDATE_ALL_SERVICES(data)));
+    setSyncLoading(true);
+    get_node_details((data) => {
+      dispatch(UPDATE_ALL_SERVICES(data))
+      setSyncLoading(false);
+    }
+    );
   }, []);
 
   const updateSidebar = (services, category, usedNodeTypes) => {
@@ -70,10 +78,16 @@ export function SideBar() {
   return (
     <aside className="side-bar-base">
       <div className="side-bar-header">
-        <strong>Services</strong>
-        <IconButton color="primary" size="small" onClick={sync_services}>
-          <SyncIcon />
-        </IconButton>
+        {
+        syncLoading ?
+        <LoadingButton variant="outlined" color={"info"} loading className='side-panel-header-button'>
+          Service Sync
+        </LoadingButton>
+        :
+        <Button variant="outlined" startIcon={<SyncIcon />} onClick={sync_services} className='side-panel-header-button'>
+          Service Sync
+        </Button>
+      }
       </div>
 
       <div className="side-bar-subheader">

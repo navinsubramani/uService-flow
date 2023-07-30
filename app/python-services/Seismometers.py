@@ -47,13 +47,15 @@ def service_core():
         print("Start publishing at", time.time())
         for subscriber in service_subscribers:
             # Add the publishing code here
-            response = requests.post(subscriber, json=publish_waveform)
+            try:
+                response = requests.post(subscriber, json=publish_waveform)
 
-            if response.status_code == 200:
-                print("Successfully published the waveform to the subscriber", subscriber)
-            else:
+                if response.status_code == 200:
+                    print("Successfully published the waveform to the subscriber", subscriber)
+                else:
+                    print("Failed to publish the waveform to the subscriber", subscriber)
+            except Exception:
                 print("Failed to publish the waveform to the subscriber", subscriber)
-        
         print("Stop publishing at", time.time())
         #time.sleep(publish_interval)
 

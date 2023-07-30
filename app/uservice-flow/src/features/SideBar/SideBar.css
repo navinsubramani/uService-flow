@@ -1,7 +1,6 @@
 .side-bar-base {
   min-width: 15rem;
   padding-left: 0.5rem;
-
   padding-right: 0.5rem;
   background-color: #f3f6f9;
 
@@ -17,6 +16,12 @@
   margin-bottom: 10px;
   text-align: center;
   font-weight: 500;
+
+  padding-top: 0.5rem;
+}
+
+.side-panel-header-button {
+  width: 15rem;
 }
 
 .side-bar-subheader {

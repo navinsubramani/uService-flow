@@ -64,7 +64,7 @@ def get_service_details():
                 service['live'] = False
                 print("not live", response.json())
         except Exception:
-            service['live'] = True
+            service['live'] = False
         updated_services.append(service)
 
     print("Sending the registered service details and its live status...")

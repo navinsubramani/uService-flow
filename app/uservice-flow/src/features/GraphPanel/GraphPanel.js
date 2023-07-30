@@ -32,7 +32,7 @@ export default function GraphPanel({data}) {
     
         socket.on('waveformData', (waveforms) => {
             setWaveforms(waveforms);
-            console.log(waveforms);
+            console.log("Recieved waveform data...");
             });
     
         return () => {
@@ -70,7 +70,7 @@ export default function GraphPanel({data}) {
 
     const waveformNameHeader = waveforms.map((waveform) => waveform.name).join("-");
 
-    console.log("options",options);
+    //console.log("options",options);
               
     return (
     <div>
