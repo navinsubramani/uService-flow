@@ -63,7 +63,6 @@ const CreateCustomNode = (services) => {
                 {service.serviceName}
               </strong>
               <img className="event-node-logo" src={FailureLogo} alt="Event" />
-              <Handle type="source" position={Position.Bottom} id="event-b" isConnectable={isConnectable} />
             </div>
           );
         }

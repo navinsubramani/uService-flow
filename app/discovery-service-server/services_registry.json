@@ -28,11 +28,11 @@
         "serviceControlEndpoint": "http://localhost:5061/api/control"
     },
     {
-        "serviceName": "Anomaly Detection",
+        "serviceName": "FFT Analysis",
         "category": "AnalysisNode",
-        "serviceDescription": "Anomaly Detection is used to detect the anomalies in a waveform signal",
-        "serviceSourceEndpoint": "Anomaly Detection Endpoint",
-        "serviceControlEndpoint": "Anomaly Detection Control Endpoint"
+        "serviceDescription": "FFT analysis is used to convert a waveform signal from time domain to frequency domain",
+        "serviceSourceEndpoint": "",
+        "serviceControlEndpoint": ""
     },
     {
         "serviceName": "Waveform Viewer",
@@ -42,7 +42,7 @@
         "serviceControlEndpoint": "http://127.0.0.1:8001/WaveformViewer/POST_control"
     },
     {
-        "serviceName": "Web Viewer",
+        "serviceName": "Single Plot Viewer [Web]",
         "category": "DisplayNode",
         "serviceDescription": "Waveform Viewer is used to display the waveform signal",
         "serviceSourceEndpoint": "http://localhost:5071/api/source",
@@ -54,5 +54,12 @@
         "serviceDescription": "Failure Detection is used to detect the failure in a waveform signal",
         "serviceSourceEndpoint": "Failure Detection Endpoint",
         "serviceControlEndpoint": "Failure Detection Control Endpoint"
+    },
+    {
+        "serviceName": "Anomaly Detection",
+        "category": "EventNode",
+        "serviceDescription": "Anomaly Detection is used to detect the anomalies in a waveform signal",
+        "serviceSourceEndpoint": "http://localhost:5062/api/source",
+        "serviceControlEndpoint": "http://localhost:5062/api/control"
     }
   ]
