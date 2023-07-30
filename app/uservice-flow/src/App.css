@@ -1,6 +1,20 @@
 .App {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  height: 100%;
+}
+
+.App-Orchestrator {
+  display: flex;
   text-align: center;
   gap: 0.5rem;
+
+  height: 100%;
+}
+
+.App-Flow-Control-Space {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
 }

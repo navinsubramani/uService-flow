@@ -25,13 +25,14 @@ def generate_waveform():
     """
     This method generates the waveform and publishes it to the subscribers
     """
-    x = np.linspace(0, 10 * np.pi, num=600)
+    x = np.linspace(0, 10 * np.pi, num=100)
     waveform = np.random.normal(scale=8, size=x.size)
 
     return waveform
 
 def service_core():
     while service_running:
+        print("Create waveform at", time.time())
         waveform = generate_waveform()
 
         publish_waveform = [
@@ -42,6 +43,8 @@ def service_core():
             }
         ]  
 
+        # print the start time in seconds
+        print("Start publishing at", time.time())
         for subscriber in service_subscribers:
             # Add the publishing code here
             response = requests.post(subscriber, json=publish_waveform)
@@ -51,7 +54,8 @@ def service_core():
             else:
                 print("Failed to publish the waveform to the subscriber", subscriber)
         
-        time.sleep(publish_interval)
+        print("Stop publishing at", time.time())
+        #time.sleep(publish_interval)
 
 #<------------------------------------------------------------->
 #<-------------------- API Endpoints ------------------------->
@@ -77,7 +81,7 @@ def control():
     if command == "connection_details":
         # Get the connection details
         connection = data['connection']
-        print(connection)
+        print("Recieved connection details", connection)
         service_subscribers = connection["publishesToEndpoints"]
 
         return jsonify({"status": "success"}), 200
@@ -85,20 +89,24 @@ def control():
     elif command == "start_service":
         # start the service function
         if not service_running:
+            print("Starting the service")
             service_running = True
             service_thread = threading.Thread(target=service_core)
             service_thread.start()
             return jsonify({"status": "success"}), 200
         else:
+            print("Start service request is recieved when service is running already")
             return jsonify({"status": "Already running"}), 200
     
     elif command == "stop_service":
         # stop the service function
         if service_running:
+            print("Stopping the service")
             service_running = False
             service_thread.join()
             return jsonify({"status": "success"}), 200
         else:
+            print("Stop service request is recieved when service is stopped already")
             return jsonify({"status": "Already stopped"}), 200
     
     elif command == "get_status":

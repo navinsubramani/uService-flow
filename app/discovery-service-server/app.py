@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
 
+from find_execution_order import find_execution_order
 
 app = Flask(__name__)
 CORS(app)
@@ -32,6 +33,7 @@ def get_service_details_from_name(all_service_details, service_name):
 
 ALL_SERVICE_DETAILS = get_service_from_registery()
 orchestration = {}
+orchestration_order = []
 
 @app.route('/', defaults={'path': 'index.html'})
 @app.route('/<path:path>')
@@ -78,7 +80,7 @@ def publish_service():
     nodes = data['nodes']
     edges = data['edges']
 
-    global ALL_SERVICE_DETAILS, orchestration
+    global ALL_SERVICE_DETAILS, orchestration, orchestration_order
 
     # stops all the existing orchestration
     stop_service()
@@ -100,9 +102,11 @@ def publish_service():
                 temp_orchestration[node]['publishesToEndpoints'].append(service_details['serviceSourceEndpoint'])
             if edge['target'] == node:
                 temp_orchestration[node]['subscribedTo'].append(edge['source'])
+            print(temp_orchestration[node])
     
     orchestration = temp_orchestration
-    print(orchestration)
+    orchestration_order = find_execution_order(temp_orchestration)
+    print(orchestration_order)
 
     return jsonify({"status": "success"})
 
@@ -112,11 +116,15 @@ def start_service():
     """
     Starts a service
     """
-    global orchestration
+    global orchestration, orchestration_order
 
-    for service, service_details in orchestration.items():
+    if orchestration_order is None:
+        return jsonify({"status": "success"})
+
+    for service in orchestration_order:
         # make a post rest call to the  control endpoint of the service to
         # start the service
+        service_details = orchestration[service]
         CONTROL_ENDPOINT = service_details['controlEndpoint']
         try:
             # POST the configuration
@@ -128,7 +136,13 @@ def start_service():
                                         "publishesTo": service_details['publishesTo'],
                                         "publishesToEndpoints": service_details['publishesToEndpoints']
             }})
+        except Exception:
+            pass
 
+    for service in orchestration_order:
+        try:
+            service_details = orchestration[service]
+            CONTROL_ENDPOINT = service_details['controlEndpoint']
             # Post the start command
             response = requests.post(CONTROL_ENDPOINT, json={"command": "start_service"})
             if response.status_code == 200:
@@ -146,11 +160,13 @@ def stop_service():
     """
     Stops a service
     """
-    global orchestration
+    global orchestration, orchestration_order
 
-    for service, service_details in orchestration.items():
+    # Stop the service in reverse order
+    for service in reversed(orchestration_order):
         # make a post rest call to the  control endpoint of the service to
         # stop the service
+        service_details = orchestration[service]
         CONTROL_ENDPOINT = service_details['controlEndpoint']
         try:
             response = requests.post(CONTROL_ENDPOINT, json={"command": "stop_service"})

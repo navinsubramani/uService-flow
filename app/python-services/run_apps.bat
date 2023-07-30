@@ -8,3 +8,4 @@ ping 127.0.0.1 -n 3 > nul
 
 rem Start the second Flask app (Web_Waveform_Viewer.py) in the second terminal window
 start "Web Waveform Viewer" cmd /c "set FLASK_APP=Web_Waveform_Viewer.py && set FLASK_RUN_PORT=5071 && flask run"
+
