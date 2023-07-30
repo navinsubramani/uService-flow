@@ -11,7 +11,7 @@
       "category": "AcquisitionNode",
       "serviceDescription": "Proximity sensors can detect vibrations based on changes in distance to an object. They are commonly used in automated systems and machinery",
       "serviceSourceEndpoint": "Proximity Sensors Endpoint",
-      "serviceControlEndpoint": "Proximity Sensors Control Endpoint"
+      "serviceControlEndpoint": "http://127.0.0.1:8001/ProximitySensor/POST_control"
     },
     {
         "serviceName": "Accelerometers",
@@ -24,8 +24,8 @@
         "serviceName": "Noise Filters",
         "category": "AnalysisNode",
         "serviceDescription": "Noise Filter is used to remove the noises in a waveform signal",
-        "serviceSourceEndpoint": "Noise Filters Endpoint",
-        "serviceControlEndpoint": "Noise Filters Control Endpoint"
+        "serviceSourceEndpoint": "http://localhost:5061/api/source",
+        "serviceControlEndpoint": "http://localhost:5061/api/control"
     },
     {
         "serviceName": "Anomaly Detection",

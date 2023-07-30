@@ -7,7 +7,7 @@ import SensorsIcon from '@mui/icons-material/Sensors';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CastIcon from '@mui/icons-material/Cast';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
-import DragHandleIcon from '@mui/icons-material/DragHandle';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SyncIcon from '@mui/icons-material/Sync';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -51,12 +51,12 @@ export function SideBar() {
           "EventNode": "dndnode nodealert"
         }
         const node_unusable = usedNodeTypes.includes(service.serviceName) || !service.live;
-        let status_icon = <DragHandleIcon className='dndnode-status-icon'/>
+        let status_icon = <FiberManualRecordIcon className='dndnode-status-icon' htmlColor='rgb(80, 238, 59)'/>
         if (!service.live) {
           status_icon = <FiberManualRecordIcon className='dndnode-status-icon' htmlColor='rgb(235, 86, 86)'/>
         }
         else if (node_unusable) {
-          status_icon = <FiberManualRecordIcon className='dndnode-status-icon' htmlColor='rgb(80, 238, 59)'/>
+          status_icon = <ArrowBackIcon className='dndnode-status-icon' htmlColor='rgb(80, 238, 59)'/>
         }
 
         ui_services.push(

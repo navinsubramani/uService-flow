@@ -1,11 +1,11 @@
 import json
 import os
 import time
+import concurrent.futures
 import threading
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import numpy as np
 import requests
 
 app = Flask(__name__)
@@ -17,60 +17,54 @@ CORS(app)
 
 service_running = False
 service_thread = None
+service_publisher = []
 service_subscribers = []
-publish_interval = 1
 
-# Function to generate the waveform
-def generate_waveform():
-    """
-    This method generates the waveform and publishes it to the subscribers
-    """
-    x = np.linspace(0, 10 * np.pi, num=100)
-    waveform = np.random.normal(scale=8, size=x.size)
+def moving_average(data, window_size):
+    smoothed_data = []
+    for i in range(len(data)):
+        window_start = max(0, i - window_size // 2)
+        window_end = min(len(data), i + window_size // 2 + 1)
+        window = data[window_start:window_end]
+        smoothed_data.append(sum(window) / len(window))
+    return smoothed_data
 
-    return waveform
 
-def publish_task(subscriber, publish_waveform):
+def publish_task(subscriber, waveform):
     # Add the publishing code here
     try:
-        response = requests.post(subscriber, json=publish_waveform)
-
+        response = requests.post(subscriber, json=waveform)
         if response.status_code == 200:
-            print("Successfully published the waveform to the subscriber: ", subscriber)
+            print("Successfully published the waveform to the subscriber", subscriber)
         else:
-            print("Failed to recieve the 200 status for the subscriber: ", subscriber)
+            print("Failed to recieve the 200 status from subscriber: ", subscriber)
     except Exception:
         print("Failed to publish the waveform to the subscriber: ", subscriber)
 
-def service_core():
-    while service_running:
-        print("Create waveform at", time.time())
-        waveform = generate_waveform()
+def service_core(waveform):
+    if service_running:
+        print("Service is running and it recieved inputs from a source")
 
-        publish_waveform = [
-            {
-                "name": "Seismometer Reading",
-                "value": waveform.tolist(),
-                "source": "Seismometer"
-            }
-        ]  
+        newWaveform = []
+        for w in waveform:
+            w["name"] = w["name"] + "_filtered"
+            w["value"] = moving_average(w["value"], 20)
+            newWaveform.append(w)
 
-        # print the start time in seconds
-        print("Start publishing at", time.time())
         threads = []
         for subscriber in service_subscribers:
             try:
-                thread = threading.Thread(target=publish_task, args=(subscriber, publish_waveform))
+                thread = threading.Thread(target=publish_task, args=(subscriber, newWaveform))
                 thread.start()
                 threads.append(thread)
             except Exception:
-                print("Failed to run the publish thread for subscriber: ", subscriber)
+                print("Failed to call the publish thread: ", subscriber)
         
         for thread in threads:
             thread.join()
 
-        print("Stop publishing at", time.time())
-        #time.sleep(publish_interval)
+    else:
+        print("Service is not running but it recieved inputs from a source")
 
 #<------------------------------------------------------------->
 #<-------------------- API Endpoints ------------------------->
@@ -91,13 +85,14 @@ def control():
     data = request.get_json()
     command = data['command']
 
-    global service_running, service_thread, service_subscribers
+    global service_running, service_thread, service_subscribers, service_publisher
 
     if command == "connection_details":
         # Get the connection details
         connection = data['connection']
         print("Recieved connection details", connection)
         service_subscribers = connection["publishesToEndpoints"]
+        service_publisher = connection["subscribedTo"]
 
         return jsonify({"status": "success"}), 200
     
@@ -106,8 +101,6 @@ def control():
         if not service_running:
             print("Starting the service")
             service_running = True
-            service_thread = threading.Thread(target=service_core)
-            service_thread.start()
             return jsonify({"status": "success"}), 200
         else:
             print("Start service request is recieved when service is running already")
@@ -118,7 +111,6 @@ def control():
         if service_running:
             print("Stopping the service")
             service_running = False
-            service_thread.join()
             return jsonify({"status": "success"}), 200
         else:
             print("Stop service request is recieved when service is stopped already")
@@ -132,8 +124,26 @@ def control():
     else:
         return jsonify({"status": "failed"}), 400
 
+
+@app.route('/api/source', methods=['POST'])
+def source():
+    """
+    Read the waveform details from the source and send it to the subscribers
+    """
+    print("start", time.time())
+    global service_running, service_thread, service_subscribers, service_publisher
+
+    waveform = request.get_json()
+
+    # send the waveform to the service_core
+    # Best Practice is to use queues like Celery & RabbitMQ
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.submit(service_core, waveform)
+    print("end", time.time())
+    return jsonify({'status': 'success'}), 200
+
 if __name__ == '__main__':
     host = 'localhost'
-    port = 5051
+    port = 5061
     app.run(host=host, port=port, debug=True)
     print(f"Started the discovery service at {host}:{port}")

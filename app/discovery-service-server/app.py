@@ -49,6 +49,8 @@ def get_service_details():
 
     global ALL_SERVICE_DETAILS
 
+    ALL_SERVICE_DETAILS = get_service_from_registery()
+
     updated_services = []
     for service in ALL_SERVICE_DETAILS:
         # make a post rest call to the  control endpoint of the service to
