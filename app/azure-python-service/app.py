@@ -156,7 +156,9 @@ def source():
     return jsonify({'status': 'success'}), 200
 
 if __name__ == '__main__':
-    host = 'localhost'
-    port = 5062
-    app.run(host=host, port=port, debug=True)
-    print(f"Started the discovery service at {host}:{port}")
+    #host = 'localhost'
+    #port = 5062
+    #app.run(host=host, port=port, debug=True)
+    #print(f"Started the discovery service at {host}:{port}")
+    app.run(debug=True)
+    print(f"Started the anomaly detection service...")
