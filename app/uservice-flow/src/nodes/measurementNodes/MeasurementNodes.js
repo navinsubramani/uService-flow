@@ -5,6 +5,13 @@ import AnalysisLogo from './../../media/analysis-1.png'
 import DisplayLogo from './../../media/display.jpg'
 import FailureLogo from './../../media/failure-icon.jpg'
 
+import LabVIEWLogo from './../../media/labview.svg'
+import PythonLogo from './../../media/Python.png'
+import WindowsLogo from './../../media/Windows.png'
+import LinuxLogo from './../../media/Linux.png'
+import ComputerLogo from './../../media/computer.jpg'
+import AzureLogo from './../../media/Azure.png'
+
 import "./MeasurementNodes.css"
 
 
@@ -16,11 +23,12 @@ const CreateCustomNode = (services) => {
     if (service.category === "AcquisitionNode") {
       service_registery[service.serviceName] = ({ data, isConnectable }) => {
         return (
-          <div className="measurement-node acquisition-node" key={service.serviceName}>
-            <strong>
-              {service.serviceName}
-            </strong>
-            <img className="measurement-node-logo" src={SensorLogo} alt="Sensor" />
+          <div className="measurement-node" key={service.serviceName}>
+            <strong className='acquisition-node'>{service.serviceName}</strong>
+            <div className='measurement-info'>
+              <TechnologyDisplay language={service.language} os={service.os} host={service.host} />
+              <p>{service.serviceDescription}</p>
+            </div>
             <Handle type="source" position={Position.Bottom} id="acq-a" isConnectable={true} />
           </div>
           );
@@ -28,12 +36,13 @@ const CreateCustomNode = (services) => {
     } else if (service.category === "AnalysisNode") {
       service_registery[service.serviceName] = ({ data, isConnectable }) => {
         return (
-          <div className="measurement-node analysis-node" key={service.serviceName}>
+          <div className="measurement-node" key={service.serviceName}>
             <Handle type="target" position={Position.Top} id="ana-a" isConnectable />
-            <strong>
-              {service.serviceName}
-            </strong>
-            <img className="measurement-node-logo" src={AnalysisLogo} alt="Analysis" />
+            <strong className='analysis-node'>{service.serviceName}</strong>
+            <div className='measurement-info'>
+              <TechnologyDisplay language={service.language} os={service.os} host={service.host} />
+              <p>{service.serviceDescription}</p>
+            </div>
             <Handle type="source" position={Position.Bottom} id="ana-b" isConnectable={true} />
           </div>
         )
@@ -41,28 +50,30 @@ const CreateCustomNode = (services) => {
     } else if (service.category === "DisplayNode") {
       service_registery[service.serviceName] = ({ data, isConnectable }) => {
         return (
-          <div className="measurement-node display-node">
+          <div className="measurement-node">
             <Handle 
             type="target" position={Position.Top} id="dis-a" isConnectable={isConnectable} 
             />
-            <strong>
-              {service.serviceName}
-            </strong>
-            <img className="display-node-logo" src={DisplayLogo} alt="Display" />
+            <strong className='display-node'>{service.serviceName}</strong>
+            <div className='measurement-info'>
+              <TechnologyDisplay language={service.language} os={service.os} host={service.host} />
+              <p>{service.serviceDescription}</p>
+            </div>
           </div>
         );
       }
     } else if (service.category === "EventNode") {
         service_registery[service.serviceName] = ({ data, isConnectable }) => {
           return (
-            <div className="measurement-node event-node">
+            <div className="measurement-node">
               <Handle 
               type="target" position={Position.Top} id="event-a" isConnectable={isConnectable} 
               />
-              <strong>
-                {service.serviceName}
-              </strong>
-              <img className="event-node-logo" src={FailureLogo} alt="Event" />
+            <strong className='event-node'>{service.serviceName}</strong>
+            <div className='measurement-info'>
+              <TechnologyDisplay language={service.language} os={service.os} host={service.host} />
+              <p>{service.serviceDescription}</p>
+            </div>
             </div>
           );
         }
@@ -72,4 +83,39 @@ const CreateCustomNode = (services) => {
   return service_registery;
 }
 
-export  { CreateCustomNode };
+const TechnologyDisplay = ({ language, os, host }) => {
+
+  const language_display = (language) => {
+    if (language === "Python") {
+      return <img className="technology-logo" src={PythonLogo} alt="Python" />
+    } else if (language === "LabVIEW") {
+      return <img className="technology-logo" src={LabVIEWLogo} alt="LabVIEW" />
+    }
+  }
+
+  const os_display = (os) => {
+    if (os === "Windows") {
+      return <img className="technology-logo" src={WindowsLogo} alt="Windows" />
+    } else if (os === "Linux") {
+      return <img className="technology-logo" src={LinuxLogo} alt="Linux" />
+    }
+  }
+
+  const host_display = (host) => {
+    if (host === "Azure") {
+      return <img className="technology-logo" src={AzureLogo} alt="Azure" />
+    } else if (host === "Local") {
+      return <img className="technology-logo" src={ComputerLogo} alt="Local" />
+    }
+  }
+
+  return (
+    <div className='measurement-node-technology-base'>
+      {language_display(language)}
+      {os_display(os)}
+      {host_display(host)}
+    </div>
+  )
+}
+
+export  { CreateCustomNode, TechnologyDisplay };

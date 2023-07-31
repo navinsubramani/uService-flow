@@ -1,39 +1,67 @@
 .measurement-node {
-    height: 80px;
-    width: 100px;
+    height: 150px;
+    width: 200px;
     border: 1px solid #eee;
-    padding: 5px;
+    padding: 1px;
     border-radius: 5px;
+    border-top: none;
 
     display: flex;
     flex-direction: column;
     gap: 4px;
     justify-content: center;
     align-items: center;
-  }
+}
+
+.measurement-info {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+
+  font-weight: 300;
+  font-size: 12px;
+  width: 100%;
+}
+
+.measurement-node-technology-base {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+
+  padding-left: 2px;
+}
+
+.technology-logo{
+  height: 30px;
+  width: 30px;
+}
   
 .acquisition-node {
-    color: #777;
-    font-size: 12px;
-  }
+  background-color: #eca624;
+  width: 100%;
+  padding: 2px;
+  border-radius: 5px;
+}
 
 .analysis-node {
-    color: #777;
-    font-size: 12px;
-    background: #f3f3f3;
-  }
-
-.measurement-node-logo {
-  height: 40px;
-  width: 80px;
+  background-color: #c836ec;
+  width: 100%;
+  padding: 2px;
+  border-radius: 5px;
 }
 
-.display-node-logo {
-  height: 70px;
-  width: 70px;
+.display-node {
+  background-color: #406de9;
+  width: 100%;
+  padding: 2px;
+  border-radius: 5px;
 }
 
-.event-node-logo {
-  height: 40px;
-  width: 40px;
+.event-node {
+  background-color: #f0f335;
+  width: 100%;
+  padding: 2px;
+  border-radius: 5px;
 }
